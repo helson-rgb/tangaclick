@@ -36,7 +36,10 @@ export default function ChiSiamo() {
       </Section>
 
       <Section className="bg-white">
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="text-center">
+          <Eyebrow>Mission e vision</Eyebrow>
+        </div>
+        <div className="mt-8 grid gap-12 lg:grid-cols-2">
           <div>
             <Eyebrow>Mission</Eyebrow>
             <h2 className="mt-3 font-heading text-2xl uppercase text-brand-navy">
@@ -63,7 +66,7 @@ export default function ChiSiamo() {
 
       <Section>
         <div className="text-center">
-          <Eyebrow>La nostra storia</Eyebrow>
+          <Eyebrow>Storia e valori</Eyebrow>
           <h2 className="mt-3 font-heading text-3xl uppercase text-brand-navy sm:text-4xl">
             Da un&apos;esigenza reale a uno strumento quotidiano
           </h2>

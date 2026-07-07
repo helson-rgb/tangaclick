@@ -94,7 +94,13 @@ export default function Prezzi() {
       </Section>
 
       <Section className="bg-white">
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="text-center">
+          <Eyebrow>Piani disponibili</Eyebrow>
+          <h2 className="mt-3 font-heading text-3xl uppercase text-brand-navy sm:text-4xl">
+            Scegli il piano della tua officina
+          </h2>
+        </div>
+        <div className="mt-12 grid gap-8 lg:grid-cols-3">
           {plans.map((plan) => (
             <div
               key={plan.name}

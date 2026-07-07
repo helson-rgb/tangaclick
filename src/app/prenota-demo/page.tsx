@@ -64,7 +64,8 @@ export default function PrenotaDemo() {
             </ul>
 
             <div className="mt-10 rounded-2xl border border-black/10 bg-brand-cream p-6">
-              <p className="font-heading text-sm uppercase text-brand-navy">
+              <Eyebrow>Contatto WhatsApp</Eyebrow>
+              <p className="mt-2 font-heading text-sm uppercase text-brand-navy">
                 Preferisci scriverci subito?
               </p>
               <p className="mt-2 text-sm text-brand-navy/70">
@@ -82,7 +83,8 @@ export default function PrenotaDemo() {
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-brand-cream p-6 sm:p-8">
-            <p className="font-heading text-lg uppercase text-brand-navy">
+            <Eyebrow>Calendar widget</Eyebrow>
+            <p className="mt-2 font-heading text-lg uppercase text-brand-navy">
               Prenota il tuo orario
             </p>
             <div className="mt-6">

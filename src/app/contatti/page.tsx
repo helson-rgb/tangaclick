@@ -59,7 +59,8 @@ export default function Contatti() {
       <Section className="bg-white">
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="rounded-2xl border border-black/10 bg-brand-cream p-6 sm:p-8">
-            <p className="font-heading text-lg uppercase text-brand-navy">
+            <Eyebrow>Form contatto</Eyebrow>
+            <p className="mt-2 font-heading text-lg uppercase text-brand-navy">
               Inviaci un messaggio
             </p>
             <div className="mt-6">

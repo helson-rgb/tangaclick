@@ -97,7 +97,13 @@ export default function ComeFunziona() {
       </Section>
 
       <Section className="bg-white">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="text-center">
+          <Eyebrow>Steps in dettaglio</Eyebrow>
+          <h2 className="mt-3 font-heading text-3xl uppercase text-brand-navy sm:text-4xl">
+            Come funziona, passo per passo
+          </h2>
+        </div>
+        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step) => (
             <div key={step.number} className="rounded-2xl border border-black/5 p-6">
               <p className="font-heading text-3xl text-brand-orange">{step.number}</p>

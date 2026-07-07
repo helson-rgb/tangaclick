@@ -101,7 +101,7 @@ export default function Home() {
 
       <Section id="perche">
         <div className="text-center">
-          <Eyebrow>Perché Targaclick</Eyebrow>
+          <Eyebrow>Benefici</Eyebrow>
           <h2 className="mt-3 font-heading text-3xl uppercase text-brand-navy sm:text-4xl">
             Lo strumento privato che gestisce ogni revisione al posto tuo
           </h2>
@@ -143,7 +143,7 @@ export default function Home() {
             </div>
           </div>
           <div className="order-1 lg:order-2">
-            <Eyebrow>WhatsApp incluso</Eyebrow>
+            <Eyebrow>WhatsApp showcase</Eyebrow>
             <h2 className="mt-3 font-heading text-3xl uppercase text-brand-navy sm:text-4xl">
               Promemoria che arrivano dove il cliente guarda davvero
             </h2>
