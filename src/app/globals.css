@@ -1,26 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-brand-blue: #0c34ad;
+  --color-brand-orange: #ff7917;
+  --color-brand-navy: #1b243d;
+  --color-brand-cream: #f8f5ec;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand-blue: var(--color-brand-blue);
+  --color-brand-orange: var(--color-brand-orange);
+  --color-brand-navy: var(--color-brand-navy);
+  --color-brand-cream: var(--color-brand-cream);
+  --font-heading: var(--font-oswald);
+  --font-sans: var(--font-roboto);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-brand-cream);
+  color: var(--color-brand-navy);
+}
+
+.tire-track-bg {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-brand-orange) 55%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 6px 6px;
 }
