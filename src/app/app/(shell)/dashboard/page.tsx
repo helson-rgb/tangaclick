@@ -1,6 +1,6 @@
 import Topbar from "@/components/app/Topbar";
 import Avatar from "@/components/app/Avatar";
-import { IconAlert, IconCalendar, IconMessage, IconUsers } from "@/components/app/icons";
+import { IconAlert, IconCalendar, IconMessage, IconTrendUp, IconUsers } from "@/components/app/icons";
 import { appuntamenti, clienteById, kpi, officina, promemoria } from "@/lib/mock-data";
 
 const kpiCards = [
@@ -10,6 +10,7 @@ const kpiCards = [
     value: kpi.promemoriaInCodaMeseProssimo,
     icon: IconMessage,
     tint: "bg-brand-orange/10 text-brand-orange",
+    delta: "+18% vs mese scorso",
   },
   {
     label: "Appuntamenti",
@@ -17,6 +18,7 @@ const kpiCards = [
     value: kpi.appuntamentiOggi,
     icon: IconCalendar,
     tint: "bg-brand-blue/10 text-brand-blue",
+    delta: "Tutti confermati",
   },
   {
     label: "Clienti",
@@ -24,6 +26,7 @@ const kpiCards = [
     value: kpi.clientiTotali,
     icon: IconUsers,
     tint: "bg-brand-navy/10 text-brand-navy",
+    delta: "+2 questa settimana",
   },
   {
     label: "Revisioni",
@@ -31,6 +34,7 @@ const kpiCards = [
     value: kpi.revisioniScadute,
     icon: IconAlert,
     tint: "bg-red-100 text-red-600",
+    delta: "-1 vs settimana scorsa",
   },
 ];
 
@@ -55,9 +59,15 @@ export default function Dashboard() {
                 key={card.label}
                 className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm"
               >
-                <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${card.tint}`}>
-                  <Icon className="h-5 w-5" />
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${card.tint}`}>
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <span className="flex items-center gap-1 text-xs font-medium text-emerald-600">
+                    <IconTrendUp className="h-3.5 w-3.5" />
+                    {card.delta}
+                  </span>
+                </div>
                 <p className="mt-4 font-heading text-3xl text-brand-navy">{card.value}</p>
                 <p className="mt-1 text-sm text-brand-navy/60">
                   {card.label} <span className="text-brand-navy/40">· {card.sublabel}</span>

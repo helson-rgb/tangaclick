@@ -1,9 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { appuntamenti, clienteById } from "@/lib/mock-data";
+import {
+  appuntamenti as appuntamentiIniziali,
+  clienteById,
+  clienti,
+  type Appuntamento,
+} from "@/lib/mock-data";
 import Avatar from "./Avatar";
-import { IconChevronLeft, IconChevronRight } from "./icons";
+import Modal from "./Modal";
+import { IconChevronLeft, IconChevronRight, IconPlus } from "./icons";
 
 const WEEKDAYS = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
 const MONTHS = [
@@ -21,6 +27,9 @@ const MONTHS = [
   "Dicembre",
 ];
 
+const inputClass =
+  "w-full rounded-lg border border-black/15 bg-white px-4 py-2.5 text-sm text-brand-navy focus:border-brand-blue focus:outline-none";
+
 function toISODate(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
     date.getDate()
@@ -31,6 +40,8 @@ export default function AgendaCalendar() {
   const initial = new Date(2026, 6, 9); // 9 luglio 2026, in linea con i dati demo
   const [viewDate, setViewDate] = useState(new Date(initial.getFullYear(), initial.getMonth(), 1));
   const [selectedISO, setSelectedISO] = useState(toISODate(initial));
+  const [appuntamenti, setAppuntamenti] = useState<Appuntamento[]>(appuntamentiIniziali);
+  const [showModal, setShowModal] = useState(false);
 
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
@@ -46,6 +57,21 @@ export default function AgendaCalendar() {
   const appuntamentiDelGiorno = appuntamenti
     .filter((a) => a.data === selectedISO)
     .sort((a, b) => a.ora.localeCompare(b.ora));
+
+  function handleAdd(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const nuovo: Appuntamento = {
+      id: `a${Date.now()}`,
+      clienteId: String(form.get("clienteId")),
+      data: String(form.get("data")),
+      ora: String(form.get("ora")),
+      stato: "in-attesa",
+    };
+    setAppuntamenti((prev) => [...prev, nuovo]);
+    setSelectedISO(nuovo.data);
+    setShowModal(false);
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
@@ -107,12 +133,22 @@ export default function AgendaCalendar() {
       </div>
 
       <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-        <p className="font-heading text-sm uppercase text-brand-navy">
-          {new Date(selectedISO).toLocaleDateString("it-IT", {
-            day: "numeric",
-            month: "long",
-          })}
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="font-heading text-sm uppercase text-brand-navy">
+            {new Date(selectedISO).toLocaleDateString("it-IT", {
+              day: "numeric",
+              month: "long",
+            })}
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowModal(true)}
+            aria-label="Nuovo appuntamento"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-orange text-white transition-colors hover:bg-orange-600"
+          >
+            <IconPlus className="h-4 w-4" />
+          </button>
+        </div>
         {appuntamentiDelGiorno.length === 0 ? (
           <p className="mt-4 text-sm text-brand-navy/50">Nessun appuntamento in agenda.</p>
         ) : (
@@ -147,6 +183,52 @@ export default function AgendaCalendar() {
           </ul>
         )}
       </div>
+
+      {showModal && (
+        <Modal title="Nuovo appuntamento" onClose={() => setShowModal(false)}>
+          <form onSubmit={handleAdd} className="space-y-4">
+            <div>
+              <label className="text-xs uppercase tracking-wide text-brand-navy/50">
+                Cliente
+              </label>
+              <select required name="clienteId" defaultValue="" className={`mt-1 ${inputClass}`}>
+                <option value="" disabled>
+                  Scegli un cliente
+                </option>
+                {clienti.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.nome} · {c.targa}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs uppercase tracking-wide text-brand-navy/50">Data</label>
+                <input
+                  required
+                  type="date"
+                  name="data"
+                  defaultValue={selectedISO}
+                  className={`mt-1 ${inputClass}`}
+                />
+              </div>
+              <div>
+                <label className="text-xs uppercase tracking-wide text-brand-navy/50">
+                  Orario
+                </label>
+                <input required type="time" name="ora" className={`mt-1 ${inputClass}`} />
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="w-full rounded-full bg-brand-orange px-6 py-3 font-heading text-sm uppercase tracking-wide text-white transition-colors hover:bg-orange-600"
+            >
+              Crea appuntamento
+            </button>
+          </form>
+        </Modal>
+      )}
     </div>
   );
 }

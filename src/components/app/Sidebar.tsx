@@ -4,9 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "@/components/Logo";
 import { officina } from "@/lib/mock-data";
-import { IconCalendar, IconGrid, IconLogout, IconMessage, IconUsers } from "./icons";
+import {
+  IconCalendar,
+  IconGrid,
+  IconLogout,
+  IconMessage,
+  IconSettings,
+  IconUsers,
+} from "./icons";
 
-const links = [
+export const navLinks = [
   { href: "/app/dashboard", label: "Dashboard", Icon: IconGrid },
   { href: "/app/agenda", label: "Agenda", Icon: IconCalendar },
   { href: "/app/clienti", label: "Clienti", Icon: IconUsers },
@@ -17,7 +24,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex w-80 shrink-0 flex-col bg-brand-navy px-6 py-8">
+    <aside className="hidden w-80 shrink-0 flex-col bg-brand-navy px-6 py-8 lg:flex">
       <Link href="/app/dashboard" className="px-2">
         <Logo variant="light" />
       </Link>
@@ -26,7 +33,7 @@ export default function Sidebar() {
         <p className="px-3 text-xs font-medium uppercase tracking-wide text-white/30">
           Menu
         </p>
-        {links.map(({ href, label, Icon }) => {
+        {navLinks.map(({ href, label, Icon }) => {
           const active = pathname === href;
           return (
             <Link
@@ -46,6 +53,21 @@ export default function Sidebar() {
             </Link>
           );
         })}
+
+        <Link
+          href="/app/impostazioni"
+          className={`relative flex items-center gap-3.5 rounded-xl px-4 py-3.5 text-[15px] font-medium transition-colors ${
+            pathname === "/app/impostazioni"
+              ? "bg-white/10 text-white"
+              : "text-white/50 hover:bg-white/5 hover:text-white/90"
+          }`}
+        >
+          {pathname === "/app/impostazioni" && (
+            <span className="absolute -left-1 top-1/2 h-5 w-1 -translate-y-1/2 rounded-full bg-brand-orange" />
+          )}
+          <IconSettings className={`h-5 w-5 ${pathname === "/app/impostazioni" ? "text-brand-orange" : ""}`} />
+          Impostazioni
+        </Link>
       </nav>
 
       <div className="space-y-4 border-t border-white/10 pt-6">
