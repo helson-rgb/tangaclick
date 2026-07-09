@@ -1,4 +1,6 @@
 import Topbar from "@/components/app/Topbar";
+import Avatar from "@/components/app/Avatar";
+import { IconMessage } from "@/components/app/icons";
 import { clienteById, promemoria } from "@/lib/mock-data";
 
 const statoLabel = {
@@ -13,69 +15,92 @@ const statoClass = {
   "in-coda": "bg-orange-100 text-brand-orange",
 };
 
-export default function Promemoria() {
+const statoDot = {
+  confermato: "bg-brand-blue",
+  consegnato: "bg-emerald-500",
+  "in-coda": "bg-brand-orange",
+};
+
+export default function PromemoriaPage() {
   const ordinati = [...promemoria].sort(
     (a, b) => new Date(b.inviato).getTime() - new Date(a.inviato).getTime()
   );
 
+  const counts = {
+    confermato: promemoria.filter((p) => p.stato === "confermato").length,
+    consegnato: promemoria.filter((p) => p.stato === "consegnato").length,
+    "in-coda": promemoria.filter((p) => p.stato === "in-coda").length,
+  };
+
   return (
     <>
       <Topbar title="Promemoria WhatsApp" />
-      <div className="space-y-4 p-8">
-        <div className="rounded-2xl border border-black/10 bg-white p-5">
-          <p className="text-sm text-brand-navy/70">
-            Ogni messaggio parte automaticamente sotto il nome della tua officina. Qui vedi lo
-            storico di ciò che è già partito e cosa è ancora in coda.
-          </p>
+      <div className="space-y-6 p-8">
+        <div className="grid gap-4 sm:grid-cols-3">
+          {(Object.keys(counts) as Array<keyof typeof counts>).map((key) => (
+            <div key={key} className="flex items-center gap-3 rounded-2xl border border-black/5 bg-white p-4 shadow-sm">
+              <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${statoDot[key]}`} />
+              <div>
+                <p className="font-heading text-2xl text-brand-navy">{counts[key]}</p>
+                <p className="text-xs text-brand-navy/50">{statoLabel[key]}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <div className="space-y-3">
-          {ordinati.map((p) => {
-            const cliente = clienteById(p.clienteId);
-            return (
-              <div
-                key={p.id}
-                className="flex flex-col gap-4 rounded-2xl border border-black/10 bg-white p-5 sm:flex-row sm:items-start sm:justify-between"
-              >
-                <div className="flex gap-4">
-                  <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white">
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
-                      <path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 0 5.4 0 12c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6c1.7.9 3.6 1.4 5.6 1.4 6.6 0 12-5.4 12-12 0-3.2-1.3-6.2-3.4-8.3ZM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.7 9.7 0 0 1 2.2 12c0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.8-9.8 9.8Z" />
-                    </svg>
-                  </span>
-                  <div>
-                    <p className="text-sm font-medium text-brand-navy">
-                      {cliente?.nome} <span className="text-brand-navy/40">· {cliente?.targa}</span>
-                    </p>
-                    <p className="mt-1 max-w-md text-sm text-brand-navy/70">{p.messaggio}</p>
-                    <p className="mt-2 text-xs text-brand-navy/40">
-                      {new Date(p.inviato).toLocaleString("it-IT", {
-                        day: "numeric",
-                        month: "short",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
+        <div className="rounded-2xl border border-black/5 bg-white shadow-sm">
+          <div className="flex items-center gap-2 border-b border-black/5 px-5 py-4">
+            <IconMessage className="h-4 w-4 text-brand-navy/40" />
+            <p className="text-xs uppercase tracking-wide text-brand-navy/50">
+              Ogni messaggio parte sotto il nome della tua officina
+            </p>
+          </div>
+
+          <ul className="divide-y divide-black/5">
+            {ordinati.map((p) => {
+              const cliente = clienteById(p.clienteId);
+              if (!cliente) return null;
+              return (
+                <li key={p.id} className="flex items-center gap-4 px-5 py-4">
+                  <Avatar name={cliente.nome} size="sm" />
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-baseline gap-2">
+                      <p className="truncate text-sm font-medium text-brand-navy">
+                        {cliente.nome}
+                      </p>
+                      <span className="text-xs text-brand-navy/40">{cliente.targa}</span>
+                    </div>
+                    <p className="mt-0.5 truncate text-sm text-brand-navy/50">{p.messaggio}</p>
                   </div>
-                </div>
-                <div className="flex shrink-0 items-center gap-3">
+
+                  <div className="hidden shrink-0 text-right text-xs text-brand-navy/40 sm:block">
+                    {new Date(p.inviato).toLocaleString("it-IT", {
+                      day: "numeric",
+                      month: "short",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </div>
+
                   <span
-                    className={`w-fit rounded-full px-3 py-1 text-xs font-medium ${statoClass[p.stato]}`}
+                    className={`hidden shrink-0 rounded-full px-2.5 py-1 text-xs font-medium sm:inline-block ${statoClass[p.stato]}`}
                   >
                     {statoLabel[p.stato]}
                   </span>
+
                   <a
                     href={`/conferma/${p.clienteId}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-medium text-brand-blue underline-offset-2 hover:underline"
+                    className="shrink-0 text-xs font-medium text-brand-blue underline-offset-2 hover:underline"
                   >
-                    Vedi cosa vede il cliente
+                    Vedi chat &rarr;
                   </a>
-                </div>
-              </div>
-            );
-          })}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </>
