@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Oswald, Roboto } from "next/font/google";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -29,11 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" className={`${oswald.variable} ${roboto.variable} h-full`}>
-      <body className="flex min-h-full flex-col font-sans antialiased">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-      </body>
+      <body className="flex min-h-full flex-col font-sans antialiased">{children}</body>
     </html>
   );
 }

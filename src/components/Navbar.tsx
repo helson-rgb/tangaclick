@@ -35,12 +35,20 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <Link
-          href="/prenota-demo"
-          className="hidden rounded-full bg-brand-orange px-5 py-2.5 font-heading text-sm uppercase tracking-wide text-white transition-colors hover:bg-orange-600 md:inline-flex"
-        >
-          Prenota demo
-        </Link>
+        <div className="hidden items-center gap-4 md:flex">
+          <Link
+            href="/app/login"
+            className="font-sans text-sm font-medium text-brand-navy transition-colors hover:text-brand-orange"
+          >
+            Accedi
+          </Link>
+          <Link
+            href="/prenota-demo"
+            className="rounded-full bg-brand-orange px-5 py-2.5 font-heading text-sm uppercase tracking-wide text-white transition-colors hover:bg-orange-600"
+          >
+            Prenota demo
+          </Link>
+        </div>
 
         <button
           type="button"
@@ -80,6 +88,15 @@ export default function Navbar() {
                 className="inline-flex w-full items-center justify-center rounded-full bg-brand-orange px-5 py-3 font-heading text-sm uppercase tracking-wide text-white"
               >
                 Prenota demo
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/app/login"
+                onClick={() => setOpen(false)}
+                className="inline-flex w-full items-center justify-center rounded-full border-2 border-brand-navy px-5 py-3 font-heading text-sm uppercase tracking-wide text-brand-navy"
+              >
+                Accedi
               </Link>
             </li>
           </ul>
